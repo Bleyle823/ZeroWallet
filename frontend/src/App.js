@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <img src={logo} className="headerLogo" alt="logo"/>
+        <img src={logo} className="headerLogo" alt="logo"/> 
         <Select
           value={selectedChain}
           onChange={(val) => setSelectedChain(val)}
