@@ -55,3 +55,6 @@ Moralis.start({
     console.log(`Listening for API Calls`);
   });
 });
+//http://localhost:3001/getTokens?userAddress=0xd68f2db7aab4720a1301a5c88180d36fa16cef4e&chain=0x1
+
+//Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'length')
