@@ -7,6 +7,7 @@ import axios from "axios";
 import { CHAINS_CONFIG } from "../chains";
 import { ethers } from "ethers";
 
+
 function WalletView({ wallet, setWallet, seedPhrase, setSeedPhrase, selectedChain }) {
   const navigate = useNavigate();
   const [tokens, setTokens] = useState(null);
@@ -214,7 +215,14 @@ function WalletView({ wallet, setWallet, seedPhrase, setSeedPhrase, selectedChai
     setBalance(0);
     navigate("/");
   }
-
+  function xmtp() {
+    setSeedPhrase(null);
+    setWallet(null);
+    setNfts(null);
+    setTokens(null);
+    setBalance(0);
+    navigate("/");
+  }
   useEffect(() => {
     if (!wallet || !selectedChain) return;
     setNfts(null);
@@ -237,6 +245,13 @@ function WalletView({ wallet, setWallet, seedPhrase, setSeedPhrase, selectedChai
         <div className="logoutButton" onClick={logout}>
           <LogoutOutlined />
         </div>
+        <Button
+          onClick={() => navigate('/chat')}
+          className="frontPageButton"
+          type="primary"
+        >
+        Create A Wallet
+        </Button>
         <div className="walletName">Wallet</div>
         <Tooltip title={wallet}>
           <div>

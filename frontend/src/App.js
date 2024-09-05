@@ -1,13 +1,13 @@
 import "./App.css";
-import { useState } from 'react'
-import logo from './logo.png'
-import { Select } from 'antd'
-import {Routes, Route} from 'react-router-dom'
-import Home from "./components/Home"
-import CreateAccount from './components/CreateAccount'
-import RecoverAccount from './components/RecoverAccount'
-import WalletView from './components/WalletView'
-
+import { useState } from 'react';
+import logo from './logo.png';
+import { Select } from 'antd';
+import { Routes, Route } from 'react-router-dom';
+import Home from "./components/Home";
+import CreateAccount from './components/CreateAccount';
+import RecoverAccount from './components/RecoverAccount';
+import WalletView from './components/WalletView';
+import Xmtp from './components/Xmtp'; // Import the new Profile component
 
 function App() {
   const [wallet, setWallet] = useState(null);
@@ -40,27 +40,26 @@ function App() {
             },
           ]}
           className="dropdown"
-        >
-        </Select>
+        />
       </header>
       {wallet && seedPhrase ? 
-      <Routes>
-        <Route path="/yourwallet" element={<WalletView
-          wallet={wallet}
-          setWallet={setWallet}
-          seedPhrase={seedPhrase}
-          setSeedPhrase={setSeedPhrase}
-          selectedChain={selectedChain}
-        />} />
-      </Routes>
-
+        <Routes>
+          <Route path="/yourwallet" element={<WalletView
+            wallet={wallet}
+            setWallet={setWallet}
+            seedPhrase={seedPhrase}
+            setSeedPhrase={setSeedPhrase}
+            selectedChain={selectedChain}
+          />} />
+          <Route path="/chat" element={<Xmtp />} /> {/* New Profile route */}
+        </Routes>
       :
-      
-      <Routes>            
-        <Route path="/" element={<Home/>}/>
-        <Route path="/recover" element={<RecoverAccount setSeedPhrase={setSeedPhrase} setWallet={setWallet}/>}/>
-        <Route path="/yourwallet" element={<CreateAccount setSeedPhrase={setSeedPhrase} setWallet={setWallet} />} />
-      </Routes>      
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/recover" element={<RecoverAccount setSeedPhrase={setSeedPhrase} setWallet={setWallet} />} />
+          <Route path="/yourwallet" element={<CreateAccount setSeedPhrase={setSeedPhrase} setWallet={setWallet} />} />
+          <Route path="/chat" element={<Xmtp />} /> {/* New Profile route */}
+        </Routes>
       }
     </div>
   );
