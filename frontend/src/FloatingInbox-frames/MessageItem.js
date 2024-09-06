@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useClient } from "@xmtp/react-sdk";
-import { Frame } from "../Frames/Frame";
-import {
-  getFrameTitle,
-  isValidFrame,
-  getOrderedButtons,
-  isXmtpFrame,
-} from "../Frames/FrameInfo";
-import { FramesClient } from "@xmtp/frames-client";
-import { readMetadata } from "../Frames/openFrames"; // Ensure you have this helper or implement it
 
 const MessageItem = ({
   message,
@@ -17,9 +8,6 @@ const MessageItem = ({
   isPWA = false,
 }) => {
   const { client } = useClient();
-  const [isLoading, setIsLoading] = useState(true);
-  const [frameMetadata, setFrameMetadata] = useState();
-  const [frameButtonUpdating, setFrameButtonUpdating] = useState(0);
   const [textInputValue, setTextInputValue] = useState("");
 
   function onTextInputChange(event) {
@@ -27,68 +15,20 @@ const MessageItem = ({
     setTextInputValue(event.target.value); // Assuming you're using React hooks
   }
 
-  const conversationTopic = message.conversationTopic;
-
-  const handleFrameButtonClick = async (buttonIndex, action = "post") => {
-    console.log(buttonIndex, action);
-    if (!frameMetadata || !client || !frameMetadata?.frameInfo?.buttons) {
-      return;
-    }
-    const { frameInfo, url: frameUrl } = frameMetadata;
-    if (!frameInfo.buttons) {
-      return;
-    }
-    const button = frameInfo.buttons[buttonIndex];
-    console.log(buttonIndex, frameInfo.buttons[buttonIndex]);
-
-    setFrameButtonUpdating(buttonIndex);
-    const framesClient = new FramesClient(client);
-    const postUrl = button.target || frameInfo.postUrl || frameUrl;
-    const payload = await framesClient.signFrameAction({
-      frameUrl,
-      inputText: textInputValue || undefined,
-      buttonIndex,
-      conversationTopic,
-      participantAccountAddresses: [peerAddress, client.address],
-    });
-    if (action === "post") {
-      const updatedFrameMetadata = await framesClient.proxy.post(
-        postUrl,
-        payload,
-      );
-      setFrameMetadata(updatedFrameMetadata);
-    } else if (action === "post_redirect") {
-      const { redirectedTo } = await framesClient.proxy.postRedirect(
-        postUrl,
-        payload,
-      );
-      window.open(redirectedTo, "_blank");
-    } else if (action === "link" && button?.target) {
-      window.open(button.target, "_blank");
-    }
-    setFrameButtonUpdating(0);
-  };
-
   useEffect(() => {
-    setIsLoading(true);
     if (typeof message.content === "string") {
       const words = message.content.split(/(\r?\n|\s+)/);
       const urlRegex =
         /^(http[s]?:\/\/)?([a-z0-9.-]+\.[a-z0-9]{1,}\/.*|[a-z0-9.-]+\.[a-z0-9]{1,})$/i;
 
-      void Promise.all(
-        words.map(async (word) => {
-          const isUrl = !!word.match(urlRegex)?.[0];
-          if (isUrl) {
-            const metadata = await readMetadata(word); // Ensure you have implemented this function
-            if (metadata) {
-              setFrameMetadata(metadata);
-            }
-          }
-        }),
-      );
+      // If you want to handle any URLs in the message, you can do so here
+      words.forEach((word) => {
+        const isUrl = !!word.match(urlRegex)?.[0];
+        if (isUrl) {
+          console.log(`Found URL: ${word}`);
+        }
+      });
     }
-    setIsLoading(false);
   }, [message?.content]);
 
   const styles = {
@@ -149,27 +89,12 @@ const MessageItem = ({
 
   const isSender = senderAddress === client?.address;
 
-  const showFrame = isValidFrame(frameMetadata);
-
   return (
     <li
       style={isSender ? styles.senderMessage : styles.receiverMessage}
       key={message.id}>
       <div style={styles.messageContent}>
-        {!frameMetadata?.frameInfo && renderMessage(message)}
-        {isLoading && <div>Loading...</div>}
-        {showFrame && !isLoading && frameMetadata?.frameInfo && (
-          <Frame
-            image={frameMetadata?.frameInfo?.image.content}
-            title={getFrameTitle(frameMetadata)}
-            buttons={getOrderedButtons(frameMetadata)}
-            handleClick={handleFrameButtonClick}
-            frameButtonUpdating={frameButtonUpdating}
-            interactionsEnabled={isXmtpFrame(frameMetadata)}
-            textInput={frameMetadata?.frameInfo?.textInput?.content}
-            onTextInputChange={onTextInputChange}
-          />
-        )}
+        {renderMessage(message)}
         <div style={styles.footer}>
           <span style={styles.timeStamp}>
             {`${new Date(message.sentAt).getHours()}:${String(
