@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState } from 'react';
-import logo from './logo.png';
+//import logo from './logo.png';
 import { Select } from 'antd';
 import { Routes, Route } from 'react-router-dom';
 import Home from "./components/Home";
@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <img src={logo} className="headerLogo" alt="logo"/> 
+        {/* <img src={logo} className="headerLogo" alt="logo"/>  */}
         <Select
           value={selectedChain}
           onChange={(val) => setSelectedChain(val)}
