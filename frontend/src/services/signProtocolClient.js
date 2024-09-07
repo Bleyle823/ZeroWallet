@@ -1,11 +1,20 @@
 // src/services/signProtocolClient.js
-import { SignProtocolClient, SpMode, EvmChains } from "@ethsign/sp-sdk";
-// import { privateKeyToAccount } from "viem/accounts";
+import { SignProtocolClient, SpMode, OffChainSignType, EvmChains } from "@ethsign/sp-sdk";
+import { privateKeyToAccount } from "viem/accounts";
 
-// const privateKey = "0x..."; // Replace with your private key (if required)
-const client = new SignProtocolClient(SpMode.OnChain, {
+//const privateKey = "7f4822c1a25df1ac2e66c6eea5b19549ff323dfbb3cb4eadcc6420a21a732f0a"; // Replace with valid private key
+
+// Off-chain (Arweave + Base Sepolia)
+const offChainClient = new SignProtocolClient(SpMode.OffChain, {
+  signType: OffChainSignType.EvmEip712,
   chain: EvmChains.baseSepolia,
-//   account: privateKeyToAccount(privateKey), // Optional, depending on environment
+  // account: privateKeyToAccount(privateKey),
 });
 
-export default client;
+// On-chain (Base Sepolia)
+const onChainClient = new SignProtocolClient(SpMode.OnChain, {
+  chain: EvmChains.baseSepolia,
+  // account: privateKeyToAccount(privateKey),
+});
+
+export { onChainClient, offChainClient };

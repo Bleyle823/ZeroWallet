@@ -1,7 +1,15 @@
 // src/services/signProtocolHelpers.js
 import axios from "axios";
-import client from "./signProtocolClient";
+import { onChainClient, offChainClient } from "./signProtocolClient";
 import { decodeAbiParameters } from "viem";
+import Arweave from "arweave";
+
+// Arweave client setup
+const arweave = Arweave.init({
+  host: 'arweave.net',
+  port: 443,
+  protocol: 'https',
+});
 
 export async function makeAttestationRequest(endpoint, options) {
   const url = `https://testnet-rpc.sign.global/api/${endpoint}`;
@@ -32,11 +40,32 @@ export async function queryAttestations(attester, schemaId, indexingValue) {
   });
 }
 
-export async function createAttestation(contractDetails, signer) {
-  return await client.createAttestation({
-    schemaId: "0x20a", // Replace with your schema ID
+// Off-chain attestation (Arweave + Base Sepolia)
+export async function createOffChainAttestation(projectName, signer) {
+  // Upload to Arweave
+  const arweaveData = { projectName, signer };
+  const transaction = await arweave.createTransaction({ data: JSON.stringify(arweaveData) });
+  await arweave.transactions.sign(transaction);
+  await arweave.transactions.post(transaction);
+
+  const arweaveCID = transaction.id;
+
+  return await offChainClient.createAttestation({
+    schemaId: "0x22b", // Schema ID for off-chain
     data: {
-      contractDetails,
+      projectName,
+      signer,
+    },
+    indexingValue: signer.toLowerCase(),
+  });
+}
+
+// On-chain attestation (Base Sepolia)
+export async function createOnChainAttestation(projectName, signer) {
+  return await onChainClient.createAttestation({
+    schemaId: "0x22b", // Schema ID for on-chain
+    data: {
+      projectName,
       signer,
     },
     indexingValue: signer.toLowerCase(),
@@ -74,7 +103,7 @@ export function findAttestation(message, attestations) {
       }
     }
 
-    if (parsedData.contractDetails === message) {
+    if (parsedData.projectName === message) {
       return { parsedData, attestation: att };
     }
   }
