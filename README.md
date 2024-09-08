@@ -16,9 +16,14 @@ This Web3 wallet,  provides a seamless multi-chain experience with built-in cros
 
 - **React**: Frontend framework for building the DApp UI.
 - **Sign Protocol SDK**: Handles attestations, both on-chain and off-chain.
+- **Avail**: Provides data availability and sampling mechanisms.
 - **Arweave**: Off-chain storage solution for decentralized data persistence.
 - **Ethers.js**: Interact with the Ethereum blockchain and handle on-chain attestations.
 - **Web3Auth**: Optional wallet integration for handling Ethereum-based operations.
+- **Chainlink**: Decentralized oracle network to provide reliable, tamper-proof inputs and outputs for smart contracts.
+- **Chiliz**: Blockchain protocol for sports and entertainment applications, adding social interaction and engagement capabilities to the DApp.
+- **Rootstock**: Smart contract platform secured by the Bitcoin network, adding another layer of decentralized security to the DApp.
+- **Morph**: Adds modularity and flexibility to the architecture, allowing seamless integration with other blockchain networks or protocols.
 
 ---
 
