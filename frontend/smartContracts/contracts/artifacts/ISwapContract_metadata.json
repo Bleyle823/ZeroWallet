@@ -1,0 +1,124 @@
+{
+	"compiler": {
+		"version": "0.8.27+commit.40a35a09"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_amountA",
+						"type": "uint256"
+					}
+				],
+				"name": "swapDaiEth",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_amountA",
+						"type": "uint256"
+					}
+				],
+				"name": "swapDaiLink",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_amountA",
+						"type": "uint256"
+					}
+				],
+				"name": "swapEthDai",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_amountA",
+						"type": "uint256"
+					}
+				],
+				"name": "swapEthLink",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_amountA",
+						"type": "uint256"
+					}
+				],
+				"name": "swapLinkDai",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_amountA",
+						"type": "uint256"
+					}
+				],
+				"name": "swapLinkEth",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/ISwappContract.sol": "ISwapContract"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/ISwappContract.sol": {
+			"keccak256": "0x922f34af1bf4430d15f1e4d4405bea32b7d516c45f4fcecbfb68cea03c0990ab",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://20bf3ad1d36837dcebae76f317fcb3c1a2c8f0932c11d339789b2d4544fc0ece",
+				"dweb:/ipfs/QmVapsUGTF1BF54sz7P9oLunb772495egKzc5jJXrJWgY9"
+			]
+		}
+	},
+	"version": 1
+}
